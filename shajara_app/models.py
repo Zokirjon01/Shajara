@@ -6,8 +6,8 @@ from datetime import date
 class Odam(models.Model):
     full_name = models.CharField(max_length=100)
     birth_date = models.DateField(null=True, blank=True)
-    father = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='farzandlari_ota_tomonidan')
-    mother = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='farzandlari_ona_tomonidan')
+    father = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='ota_farzandlari')
+    mother = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='ona_farzandlari')
     address = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(upload_to='odamlar/', null=True, blank=True)
     info = models.TextField(null=True, blank=True)
@@ -24,5 +24,5 @@ class Odam(models.Model):
         return self.full_name
 
 
-    def bolalari(self):
+    def farzandlar(self):
         return Odam.objects.filter(models.Q(father=self) | models.Q(mother=self))
